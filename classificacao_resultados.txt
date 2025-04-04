@@ -1,0 +1,17 @@
+Imagem,Certeza,Correta
+god,100.00,1
+good2,97.81,1
+good,100.00,1
+nice,100.00,1
+solda,100.00,1
+soldaaboa,100.00,1
+soldaaruim,99.35,1
+soldabboa,100.00,1
+soldaboa,100.00,1
+soldaboaa,100.00,1
+soldadboa,100.00,1
+soldadruim,99.35,1
+soldahruim,99.35,1
+soldarruim,99.35,1
+soldaruim,99.35,1
+soldauruim,99.35,1
