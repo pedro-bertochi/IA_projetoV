@@ -131,3 +131,19 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Model
+model/modelo_solda.h5
+*/*.h5
+*.h5
+
+# image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+*.svg
+*.ico
