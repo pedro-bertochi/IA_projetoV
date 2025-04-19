@@ -1,7 +1,7 @@
 import os
-from src.processar_imagens import combinar_imagens
+from .processar_imagens import combinar_imagens
 import numpy as np
-from tensorflow.keras.utils import Sequence
+from keras.utils import Sequence
 
 class ParImageGenerator(Sequence):
     def __init__(self, pasta, batch_size=32):
@@ -27,4 +27,6 @@ class ParImageGenerator(Sequence):
         batch_x = self.imagens[idx * self.batch_size:(idx + 1) * self.batch_size]
         batch_y = self.labels[idx * self.batch_size:(idx + 1) * self.batch_size]
         imagens_processadas = [combinar_imagens(p1, p2) for p1, p2 in batch_x]
+        imgs = np.array(imagens_processadas)
+        print(f"Lote {idx}: shape das imagens = {imgs.shape}, dtype = {imgs.dtype}")
         return np.array(imagens_processadas) / 255.0, np.array(batch_y)

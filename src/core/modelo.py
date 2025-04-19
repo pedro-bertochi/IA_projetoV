@@ -4,8 +4,10 @@ from tensorflow.keras.models import Model
 
 def criar_modelo():
     base = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 448, 3))
+    # for layer in base.layers[-30:]:
+        # layer.trainable = True
     for layer in base.layers:
-        layer.trainable = False
+        layer.trainable = True
 
     x = GlobalAveragePooling2D()(base.output)
     x = Dense(128, activation='relu')(x)
