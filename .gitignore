@@ -76,6 +76,8 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+notebooks/*.ipynb_checkpoints
+notebooks/*.py
 
 # IPython
 profile_default/
@@ -131,3 +133,20 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Model
+model/modelo_solda.h5
+model/modelo_solda_resnet50.h5
+*/*.h5
+*.h5
+
+# image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+*.svg
+*.ico
