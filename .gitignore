@@ -150,3 +150,12 @@ model/modelo_solda_resnet50.h5
 *.webp
 *.svg
 *.ico
+
+# github actions
+.github/
+
+#log files
+*.log
+*.txt
+*.csv
+*.json

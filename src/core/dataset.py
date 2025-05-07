@@ -20,6 +20,10 @@ class ParImageGenerator(Sequence):
             for classe in ['boa', 'ruim']:
                 caminho = os.path.join(pasta, classe)
                 arquivos = sorted(os.listdir(caminho))
+                if len(arquivos) % 2 != 0:
+                    print(f"[AVISO] Número ímpar de imagens na pasta {caminho}. Ignorando a última.")
+                    arquivos = arquivos[:-1]  # Remove a última imagem
+
                 pares = [(arquivos[i], arquivos[i + 1]) for i in range(0, len(arquivos), 2)]
                 for par in pares:
                     self.imagens.append((
