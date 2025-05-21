@@ -1,0 +1,46 @@
+body {
+  font-family: sans-serif;
+  background: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 400px;
+  text-align: center;
+}
+
+.drop-area {
+  border: 2px dashed #ccc;
+  padding: 30px;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.drop-area.highlight {
+  border-color: #3b82f6;
+  background: #e0f2fe;
+}
+
+.drop-area p {
+  margin: 0;
+  color: #555;
+}
+
+#fileElem {
+  display: none;
+}
+
+.file-list {
+  margin-top: 15px;
+  text-align: left;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: #fff;
+  border-radius: 5px;
+}

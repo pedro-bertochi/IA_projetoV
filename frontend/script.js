@@ -1,58 +1,103 @@
-const dropZone = document.getElementById("drop-zone");
-const fileInput = document.getElementById("file-input");
-const fileNames = document.getElementById("file-names");
+const dropArea = document.getElementById("drop-area");
+const fileInput = document.getElementById("fileElem");
+const fileList = document.getElementById("fileList");
+const enviarBtn = document.getElementById("enviarBtn");
+const resultadoDiv = document.getElementById("resultado");
+let filesArray = [];
 
-let arquivosSelecionados = [];
+function updateFileList() {
+  fileList.innerHTML = "";
+  const uniqueFiles = [...new Map(filesArray.map(f => [f.name, f])).values()];
+  filesArray = uniqueFiles;
 
-function adicionarArquivos(novosArquivos) {
-  for (const novo of novosArquivos) {
-    const duplicado = arquivosSelecionados.some(
-      f => f.name === novo.name && f.size === novo.size
-    );
-    if (!duplicado) {
-      arquivosSelecionados.push(novo);
-    }
-  }
-  atualizarLista();
-}
-
-function atualizarLista() {
-  fileNames.innerHTML = "";
-
-  if (arquivosSelecionados.length === 0) {
-    fileNames.innerHTML = "<li>Nenhuma imagem ainda.</li>";
-    return;
-  }
-
-  arquivosSelecionados.forEach(arquivo => {
-    const item = document.createElement("li");
-    item.textContent = arquivo.name;
-    fileNames.appendChild(item);
+  uniqueFiles.slice(-10).forEach(file => {
+    const item = document.createElement("div");
+    item.textContent = file.name;
+    fileList.appendChild(item);
   });
 }
 
-// Eventos
+function handleFiles(files) {
+  const validFiles = [];
+  const invalidFiles = [];
 
-dropZone.addEventListener("click", () => fileInput.click());
+  for (let file of files) {
+    if (!file.type.startsWith("image/")) {
+      invalidFiles.push(file.name);
+    } else if (!filesArray.find(f => f.name === file.name)) {
+      validFiles.push(file);
+    }
+  }
 
-dropZone.addEventListener("dragover", e => {
+  if (invalidFiles.length > 0) {
+    alert(`Os seguintes arquivos não são imagens:\n\n${invalidFiles.join("\n")}\n\nFormatos aceitos: JPG, PNG, JPEG, etc.`);
+  }
+
+  filesArray = filesArray.concat(validFiles);
+  updateFileList();
+}
+
+dropArea.addEventListener("dragover", (e) => {
   e.preventDefault();
-  dropZone.classList.add("highlight");
+  dropArea.classList.add("highlight");
 });
 
-dropZone.addEventListener("dragleave", () => {
-  dropZone.classList.remove("highlight");
+dropArea.addEventListener("dragleave", () => {
+  dropArea.classList.remove("highlight");
 });
 
-dropZone.addEventListener("drop", e => {
+dropArea.addEventListener("drop", (e) => {
   e.preventDefault();
-  dropZone.classList.remove("highlight");
-
-  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith("image/"));
-  adicionarArquivos(files);
+  dropArea.classList.remove("highlight");
+  handleFiles(e.dataTransfer.files);
 });
 
-fileInput.addEventListener("change", () => {
-  const files = Array.from(fileInput.files).filter(f => f.type.startsWith("image/"));
-  adicionarArquivos(files);
+dropArea.addEventListener("click", () => fileInput.click());
+fileInput.addEventListener("change", () => handleFiles(fileInput.files));
+
+enviarBtn.addEventListener("click", async () => {
+  if (filesArray.length % 2 !== 0) {
+    alert("Por favor, envie um número par de imagens.");
+    return;
+  }
+
+  const formData = new FormData();
+  for (const file of filesArray) {
+    formData.append("images", file);
+  }
+
+  resultadoDiv.innerHTML = "Processando...";
+
+  try {
+    const res = await fetch("http://localhost:5000/classify", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (data.resultados) {
+      resultadoDiv.innerHTML = "<h4>Resultados:</h4>";
+      data.resultados.forEach(r => {
+        const linha = document.createElement("div");
+        linha.textContent = `${r.imagem1} + ${r.imagem2} → ${r.classificacao} (Confiança: ${r.confiança.toFixed(2)})`;
+        resultadoDiv.appendChild(linha);
+      });
+
+      const link = document.createElement("a");
+      link.href = data.relatorio;
+      link.textContent = "📄 Baixar Relatório PDF";
+      link.target = "_blank";
+      link.style.display = "block";
+      link.style.marginTop = "10px";
+      resultadoDiv.appendChild(link);
+
+    } else {
+      resultadoDiv.innerHTML = "Erro: " + JSON.stringify(data);
+    }
+
+  } catch (err) {
+    resultadoDiv.innerHTML = "Erro ao conectar com o servidor.";
+    console.error(err);
+  }
 });
