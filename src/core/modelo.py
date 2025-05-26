@@ -4,9 +4,9 @@ from tensorflow.keras.models import Model
 
 def criar_modelo():
     base = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 448, 3))
-    # for layer in base.layers[-30:]:
+    # for layer in base.layers[-30:]:   # Descongelar as últimas 30 camadas
         # layer.trainable = True
-    for layer in base.layers:
+    for layer in base.layers:   # Descongelar todas as camadas
         layer.trainable = True
 
     x = GlobalAveragePooling2D()(base.output)
