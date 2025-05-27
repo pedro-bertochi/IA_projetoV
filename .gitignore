@@ -155,6 +155,7 @@ model/modelo_solda_resnet50.h5
 .github/
 
 #log files
+/logs/*
 *.log
 *.txt
 *.csv

@@ -1,3 +1,4 @@
+import tensorflow as tf
 from tensorflow.keras.applications import ResNet50
 from tensorflow.keras.layers import Dense, Flatten, Input, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
@@ -14,5 +15,9 @@ def criar_modelo():
     saida = Dense(1, activation='sigmoid')(x)
 
     modelo = Model(inputs=base.input, outputs=saida)
-    modelo.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    modelo.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), 
+        loss='binary_crossentropy', 
+        metrics=['accuracy']
+        )
     return modelo
