@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 import os
@@ -11,7 +11,7 @@ from tensorflow.keras.models import load_model
 from core import criar_modelo  # mesma função usada no treino
 
 
-# In[ ]:
+# In[2]:
 
 
 # Caminho onde estão os modelos fine-tuned
@@ -25,7 +25,7 @@ n_folds = 5
 # Carrega todos os modelos fine-tuned
 modelos = []
 for fold in range(1, n_folds + 1):
-    caminho = f'{model_dir}/fine_tuned_fold{fold}.h5'
+    caminho = f'{model_dir}/final_tuned_fold{fold}.h5'
     modelos.append(load_model(caminho))
 
 

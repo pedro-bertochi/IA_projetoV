@@ -6,7 +6,7 @@ from tensorflow.keras.models import Model
 def criar_modelo():
     base = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 448, 3))
     # for layer in base.layers[-30:]:   # Descongelar as últimas 30 camadas
-        # layer.trainable = True
+    #     layer.trainable = True
     for layer in base.layers:   # Descongelar todas as camadas
         layer.trainable = True
 
@@ -16,7 +16,7 @@ def criar_modelo():
 
     modelo = Model(inputs=base.input, outputs=saida)
     modelo.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001), 
+        optimizer='Adam', 
         loss='binary_crossentropy', 
         metrics=['accuracy']
         )
