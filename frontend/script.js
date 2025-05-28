@@ -31,6 +31,22 @@ function atualizarLista() {
   });
 }
 
+async function enviarArquivos() {
+  const formData = new FormData();
+  filesArray.forEach(file => {
+    formData.append('files', file);
+  });
+
+  const response = await fetch('http://127.0.0.1:5000/classificar', {
+    method: 'POST',
+    body: formData
+  });
+
+  const result = await response.json();
+  console.log(result);
+  alert("Classificação concluída! Veja o console.");
+}
+
 // Eventos
 
 dropZone.addEventListener("click", () => fileInput.click());
