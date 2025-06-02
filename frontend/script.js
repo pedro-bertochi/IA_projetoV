@@ -1,58 +1,63 @@
-const dropZone = document.getElementById("drop-zone");
-const fileInput = document.getElementById("file-input");
-const fileNames = document.getElementById("file-names");
+const fileInput = document.getElementById('file-input');
+const fileNames = document.getElementById('file-names');
+const dropZone = document.getElementById('drop-zone');
+const resultadoDiv = document.getElementById('resultado');
 
-let arquivosSelecionados = [];
+fileInput.addEventListener('change', updateFileList);
+dropZone.addEventListener('click', () => fileInput.click());
 
-function adicionarArquivos(novosArquivos) {
-  for (const novo of novosArquivos) {
-    const duplicado = arquivosSelecionados.some(
-      f => f.name === novo.name && f.size === novo.size
-    );
-    if (!duplicado) {
-      arquivosSelecionados.push(novo);
+function updateFileList() {
+    const files = fileInput.files;
+    fileNames.innerHTML = '';
+    if (files.length === 0) {
+        fileNames.innerHTML = '<li>Nenhuma imagem ainda.</li>';
+    } else {
+        for (let file of files) {
+            const li = document.createElement('li');
+            li.textContent = file.name;
+            fileNames.appendChild(li);
+        }
     }
-  }
-  atualizarLista();
 }
 
-function atualizarLista() {
-  fileNames.innerHTML = "";
+function enviarArquivos() {
+    const files = fileInput.files;
+    if (files.length === 0) {
+        alert('Selecione ao menos uma imagem!');
+        return;
+    }
 
-  if (arquivosSelecionados.length === 0) {
-    fileNames.innerHTML = "<li>Nenhuma imagem ainda.</li>";
-    return;
-  }
+    const formData = new FormData();
+    for (let file of files) {
+        formData.append('files', file);
+    }
 
-  arquivosSelecionados.forEach(arquivo => {
-    const item = document.createElement("li");
-    item.textContent = arquivo.name;
-    fileNames.appendChild(item);
-  });
+    fetch('http://localhost:5000/classificar', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        resultadoDiv.innerHTML = '';
+
+        const baseUrl = 'http://localhost:5000';
+        const pdfUrl = baseUrl + data.relatorio_url;
+
+        const mensagem = document.createElement('p');
+        mensagem.textContent = 'Relatório gerado com sucesso!';
+
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.textContent = 'Clique aqui para baixar o relatório PDF';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.style.display = 'block';
+        link.style.marginTop = '10px';
+
+        resultadoDiv.appendChild(mensagem);
+        resultadoDiv.appendChild(link);
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+    });
 }
-
-// Eventos
-
-dropZone.addEventListener("click", () => fileInput.click());
-
-dropZone.addEventListener("dragover", e => {
-  e.preventDefault();
-  dropZone.classList.add("highlight");
-});
-
-dropZone.addEventListener("dragleave", () => {
-  dropZone.classList.remove("highlight");
-});
-
-dropZone.addEventListener("drop", e => {
-  e.preventDefault();
-  dropZone.classList.remove("highlight");
-
-  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith("image/"));
-  adicionarArquivos(files);
-});
-
-fileInput.addEventListener("change", () => {
-  const files = Array.from(fileInput.files).filter(f => f.type.startsWith("image/"));
-  adicionarArquivos(files);
-});

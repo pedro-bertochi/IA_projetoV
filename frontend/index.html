@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Classificador de Soldas</title>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Classificador de Soldas</title>
+  <style>
     body {
       font-family: sans-serif;
       display: flex;
@@ -60,25 +60,53 @@
     #file-input {
       margin-top: 10px;
     }
+
+    #resultado a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #resultado a:hover {
+      text-decoration: underline;
+    }
+
+    .sucesso {
+      color: green;
+      font-weight: bold;
+    }
+
+    .erro {
+      color: red;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-<h2>Classificador de Soldas</h2>
 
-<div id="container">
+  <h2>Classificador de Soldas</h2>
+
+  <div id="container">
     <div>
-        <div id="drop-zone">Solte as imagens aqui</div>
-        <input type="file" id="file-input" multiple accept="image/*" />
+      <div id="drop-zone">Solte as imagens aqui</div>
+      <input type="file" id="file-input" multiple accept="image/*" />
     </div>
 
     <div id="file-list">
-        <strong>Imagens selecionadas:</strong>
-        <ul id="file-names">
-            <li>Nenhuma imagem ainda.</li>
-        </ul>
+      <strong>Imagens selecionadas:</strong>
+      <ul id="file-names">
+        <li>Nenhuma imagem ainda.</li>
+      </ul>
     </div>
-</div>
+  </div>
 
-<script src="script.js"></script>
+  <button onclick="enviarArquivos()">Classificar</button>
+
+  <div id="resultado"></div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>

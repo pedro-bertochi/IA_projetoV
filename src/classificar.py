@@ -7,9 +7,9 @@ import tensorflow as tf
 modelo = criar_modelo()
 train_gen = ParImageGenerator('../image/treino', batch_size=8)
 modelo.fit(train_gen, epochs=10)
-modelo.save('../model/modelo_solda_resnet50.h5')
+modelo.save('../model/modelo_final_media.h5')
 
-modelo = tf.keras.models.load_model('../model/modelo_solda_resnet50.h5')
+modelo = tf.keras.models.load_model('../model/modelo_final_media.h5')
 caminho = '../image/classificacao/novas'
 imagens = sorted([f for f in os.listdir(caminho) if f.lower().endswith('.jpg')])
 
