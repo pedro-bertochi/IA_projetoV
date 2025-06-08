@@ -156,6 +156,7 @@ model/modelo_solda_resnet50.h5
 
 #log files
 /logs/*
+/logs_novo/*
 *.log
 *.txt
 *.csv
