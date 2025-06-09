@@ -56,7 +56,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-O Flask iniciará em: `http://localhost:5000`c.
+O Flask iniciará em: `http://localhost:5000`.
 O relatório PDF será gerado automaticamente na pasta: `static/reports/`.
 
 4. Rodar o Frontend (Web)
@@ -100,15 +100,10 @@ O link de download do PDF aparecerá automaticamente na página.
 
 ✅ Dependências principais
 ```
-Flask
-
-Flask-CORS
-
-TensorFlow
-
-NumPy
-
-Pillow
-
-reportlab
+- Flask[async]
+- Flask-CORS
+- TensorFlow
+- NumPy
+- Pillow
+- reportlab
 ```
