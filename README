@@ -69,6 +69,7 @@ Opção 2 — rodar um servidor local (recomendado):
 No diretório frontend/:
 
 ```
+cd frontend
 python -m http.server 8000
 ```
 
