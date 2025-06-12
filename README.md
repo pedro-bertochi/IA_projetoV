@@ -61,15 +61,14 @@ O relatório PDF será gerado automaticamente na pasta: `static/reports/`.
 
 4. Rodar o Frontend (Web)
    Opção 1 — abrir direto:
-   Abra o arquivo frontend/index.html no navegador.
+   Abra o arquivo "index.html" no navegador.
    ⚠️ Pode ter bloqueios de segurança (CORS).
 
 Opção 2 — rodar um servidor local (recomendado):
 
-No diretório frontend/:
+No diretório raiz:
 
 ```
-cd frontend
 python -m http.server 8000
 ```
 
@@ -78,7 +77,7 @@ O frontend estará em: `http://localhost:8000/index.html`
 🖼️ Como gerar o relatório PDF
 Acesse o frontend no navegador.
 
-Selecione pelo menos dois arquivos de imagem.
+Selecione os arquivos de imagem.
 
 Clique em "Enviar".
 
@@ -96,7 +95,7 @@ Classificação.
 
 Confiança.
 
-O link de download do PDF aparecerá automaticamente na página.
+O arquivo PDF gerado aparecerá automaticamente na pasta "static/reports" dentro do projeto.
 
 ✅ Dependências principais
 ```
